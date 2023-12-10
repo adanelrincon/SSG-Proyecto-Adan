@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo> 
+    <data>
+        <record id="grupo_administrador" model="res.groups">
+            <field name="name">Administrador Empresas Contratadoras</field>
+        </record>
+
+        <record id="grupo_jefe" model="res.groups">
+            <field name="name">Jefe de Proyectos</field>
+        </record>
+
+        <record id="grupo_analista" model="res.groups">
+            <field name="name">Analista</field>
+        </record>
+
+        <record id="grupo_programador" model="res.groups">
+            <field name="name">Programador</field>
+        </record>
+
+        <!-- Asignación de grupo de permisos Gestor al administrador -->
+        <record id="base.user_admin" model="res.users">
+            <field name="name">Administrador de Empresas Contratadoras</field>
+            <field name="groups_id" eval="[(4, ref('empresas_contratadoras.grupo_administrador'))]" />
+        </record>
+    </data> 
+</odoo>

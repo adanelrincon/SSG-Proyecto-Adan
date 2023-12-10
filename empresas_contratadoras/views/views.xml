@@ -1,0 +1,65 @@
+
+<odoo>
+  <data>
+
+    <record model="ir.ui.view" id="empresas_contratadoras_tree">
+      <field name="name">empresas_contratadoras.tree</field>
+      <field name="model">empresas_contratadoras</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="cantidad_tareas"  groups="empresas_contratadoras.grupo_administrador,empresas_contratadoras.grupo_jefe"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="empresas_contratadoras_form">
+      <field name="name">empresas_contratadoras.form</field>
+      <field name="model">empresas_contratadoras</field>
+      <field name="arch" type="xml">
+        <form>
+          <group colspan="2" col="2">
+            <field name="name"/>
+            <field name="proyectos"/>
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="project_addon">
+      <field name="name">project_addon</field>
+      <field name="model">project.project</field>
+      <field name="inherit_id" ref="project.edit_project" />
+      <field name="arch" type="xml">
+        <field name="user_id" position="after">  
+          <field name="tareas" widget="form"/>
+        </field>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="empresas_contratadoras_action_window">
+      <field name="name">Empresas</field>
+      <field name="res_model">empresas_contratadoras</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="project_project_action_window">
+      <field name="name">Proyectos</field>
+      <field name="res_model">project.project</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="project_task_action_window">
+      <field name="name">Tareas</field>
+      <field name="res_model">project.task</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Empresas Contratadoras" id="empresas_contratadoras.menu_root"/>
+
+    <menuitem name="Empresas" id="empresas_contratadoras.menu_1" parent="empresas_contratadoras.menu_root" action="empresas_contratadoras_action_window"/>
+    <menuitem name="Proyectos" id="empresas_contratadoras.menu_2" parent="empresas_contratadoras.menu_root" action="project_project_action_window"/>
+    <menuitem name="Tareas" id="empresas_contratadoras.menu_3" parent="empresas_contratadoras.menu_root" action="project_task_action_window"/>
+
+  </data>
+</odoo>

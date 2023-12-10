@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo> 
+    <data noupdate="1">
+
+        <record id="project_tags_backend" model="project.tags">
+            <field name="name">Backend</field>
+        </record>
+
+        <record id="project_tags_frontend" model="project.tags">
+            <field name="name">Frontend</field>
+        </record>
+
+    </data> 
+</odoo>
