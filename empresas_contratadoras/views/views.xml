@@ -1,7 +1,7 @@
-
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
-
+    <!-- EMPRESAS CONTRATADORAS -->
     <record model="ir.ui.view" id="empresas_contratadoras_tree">
       <field name="name">empresas_contratadoras.tree</field>
       <field name="model">empresas_contratadoras</field>
@@ -12,7 +12,6 @@
         </tree>
       </field>
     </record>
-
     <record model="ir.ui.view" id="empresas_contratadoras_form">
       <field name="name">empresas_contratadoras.form</field>
       <field name="model">empresas_contratadoras</field>
@@ -26,6 +25,7 @@
       </field>
     </record>
 
+    <!-- PROYECTOS -->
     <record model="ir.ui.view" id="project_addon">
       <field name="name">project_addon</field>
       <field name="model">project.project</field>
@@ -37,29 +37,95 @@
       </field>
     </record>
 
+    <!-- CONFIGURACION -->
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+      <field name="name">
+        res.config.settings.view.form.inherit.empresas_contratadoras
+      </field>
+      <field name="model">res.config.settings</field>
+      <field name="priority" eval="15"/>
+      <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//div[hasclass('settings')]" position="inside">
+          <div  class="app_settings_block"
+                data-string="Configuracion Empresas"
+                string="Configuracion Empresas"
+                data-key="empresas_contratadoras">
+            <h2>Configuracion Empresas</h2>
+            <div class="row mt16 o_settings_container">
+              <div class="col-12 col-lg-6 o_setting_box">
+                <div class="o_setting_left_pane"/>
+                <div class="o_setting_right_pane">
+                  <span class="o_form_label">Tipo de Empresa</span>
+                  <div class="text-muted content-group mt16">
+                    <field name="empresa_tipo" attrs="{'invisible': [('empresa_tipo', '=' , 'True')]}"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>   
+        </xpath>
+      </field>
+    </record>
+
+    <!-- EMPRESAS CONTRATADORAS -->
     <record model="ir.actions.act_window" id="empresas_contratadoras_action_window">
       <field name="name">Empresas</field>
       <field name="res_model">empresas_contratadoras</field>
       <field name="view_mode">tree,form</field>
     </record>
 
+    <!-- PROYECTOS -->
     <record model="ir.actions.act_window" id="project_project_action_window">
       <field name="name">Proyectos</field>
       <field name="res_model">project.project</field>
       <field name="view_mode">tree,form</field>
     </record>
-
     <record model="ir.actions.act_window" id="project_task_action_window">
       <field name="name">Tareas</field>
       <field name="res_model">project.task</field>
       <field name="view_mode">tree,form</field>
     </record>
 
+    <!-- CONFIGURACION -->
+    <record id="res_config_settings_action" model="ir.actions.act_window">
+      <field name="name">Configuration</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">res.config.settings</field>
+      <field name="view_mode">form</field>
+      <field name="target">inline</field>
+      <field name="context">{'module' : 'empresas_contratadoras', }</field>
+    </record>
+    <!-- 'bin_size' : False' -->
+
     <menuitem name="Empresas Contratadoras" id="empresas_contratadoras.menu_root"/>
 
-    <menuitem name="Empresas" id="empresas_contratadoras.menu_1" parent="empresas_contratadoras.menu_root" action="empresas_contratadoras_action_window"/>
-    <menuitem name="Proyectos" id="empresas_contratadoras.menu_2" parent="empresas_contratadoras.menu_root" action="project_project_action_window"/>
-    <menuitem name="Tareas" id="empresas_contratadoras.menu_3" parent="empresas_contratadoras.menu_root" action="project_task_action_window"/>
+    <!-- EMPRESAS CONTRATADORAS -->
+    <menuitem name="Empresas" 
+              id="empresas_contratadoras.menu_1" 
+              parent="empresas_contratadoras.menu_root" 
+              action="empresas_contratadoras_action_window"/>
+
+    <!-- PROYECTOS -->
+    <menuitem name="Proyectos" 
+              id="empresas_contratadoras.menu_2" 
+              parent="empresas_contratadoras.menu_root" 
+              action="project_project_action_window"/>
+
+    <menuitem name="Tareas" 
+              id="empresas_contratadoras.menu_3" 
+              parent="empresas_contratadoras.menu_root" 
+              action="project_task_action_window"/>
+
+    <!-- CONFIGURACION -->
+    <menuitem name="Configuration"
+              id="empresas_contratadoras.menu_4"
+              parent="empresas_contratadoras.menu_root"/>
+
+    <menuitem name="Settings"
+              id="empresas_contratadoras.menu_5"
+              parent="empresas_contratadoras.menu_4"
+              action="res_config_settings_action"/>
 
   </data>
 </odoo>
