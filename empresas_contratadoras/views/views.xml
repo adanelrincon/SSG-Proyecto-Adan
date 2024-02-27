@@ -9,6 +9,7 @@
         <tree>
           <field name="name"/>
           <field name="cantidad_tareas"  groups="empresas_contratadoras.grupo_administrador,empresas_contratadoras.grupo_jefe"/>
+          <field name="empresa_tipo"/>
         </tree>
       </field>
     </record>
@@ -17,9 +18,10 @@
       <field name="model">empresas_contratadoras</field>
       <field name="arch" type="xml">
         <form>
-          <group colspan="2" col="2">
+          <group colspan="3" col="3">
             <field name="name"/>
             <field name="proyectos"/>
+            <field name="empresa_tipo" />
           </group>
         </form>
       </field>
@@ -37,34 +39,61 @@
       </field>
     </record>
 
-    <!-- CONFIGURACION -->
-    <record id="res_config_settings_view_form" model="ir.ui.view">
-      <field name="name">
-        res.config.settings.view.form.inherit.empresas_contratadoras
-      </field>
+    <!-- CONFIGURACION  -->
+    <record model="ir.ui.view" id="res_config_settings_view_form" >
+      <field name="name">res.config.settings.view.form.inherit.empresas_contratadoras</field>
       <field name="model">res.config.settings</field>
-      <field name="priority" eval="15"/>
       <field name="inherit_id" ref="base.res_config_settings_view_form"/>
       <field name="arch" type="xml">
         <xpath expr="//div[hasclass('settings')]" position="inside">
-          <div  class="app_settings_block"
-                data-string="Configuracion Empresas"
-                string="Configuracion Empresas"
-                data-key="empresas_contratadoras">
-            <h2>Configuracion Empresas</h2>
-            <div class="row mt16 o_settings_container">
-              <div class="col-12 col-lg-6 o_setting_box">
-                <div class="o_setting_left_pane"/>
-                <div class="o_setting_right_pane">
-                  <span class="o_form_label">Tipo de Empresa</span>
-                  <div class="text-muted content-group mt16">
-                    <field name="empresa_tipo" attrs="{'invisible': [('empresa_tipo', '=' , 'True')]}"/>
-                  </div>
+          <div class="app_settings_block"
+               data-string="Configuracion Empresas"
+               string="Configuracion Empresas"
+               data-key="empresas_contratadoras">
+              <h2>Configuracion Empresas</h2>
+              <div class="row mt16 o_settings_container">
+                <div class="col-12 col-lg-6 o_setting_box" style="width: 100%;"> <!-- Ajusta el ancho aquí -->
+                  <!-- <div class="o_setting_left_pane"/>
+                  <div class="o_setting_right_pane" style="width: 100%;"> -->
+                    <span class="o_form_label">Registros</span>
+                    <div class="text-muted content-group mt16">
+                      <!-- <field name="registros" widget="one2many_list" colspan="10"/> -->
+                      <field name="registros" widget="form" colspan="4" position="before" mode="tree"/>
+                    </div>
+                  <!-- </div> -->
                 </div>
               </div>
-            </div>
-          </div>   
+          </div>
         </xpath>
+      </field>
+    </record>
+
+
+    <!-- REGISTROS -->
+    <record model="ir.ui.view" id="empresa_registro_tree">
+      <field name="name">empresa_registro.tree</field>
+      <field name="model">empresa_registro</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="usuario"/>
+          <field name="nombre_empresa"/>
+          <field name="fecha_hora"/>
+          <field name="tipo_accion"/>
+        </tree>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="empresa_registro_form">
+      <field name="name">empresa_registro.form</field>
+      <field name="model">empresa_registro</field>
+      <field name="arch" type="xml">
+        <form>
+          <group colspan="4" col="4">
+            <field name="usuario"/>
+            <field name="nombre_empresa"/>
+            <field name="fecha_hora"/>
+            <field name="tipo_accion"/>
+          </group>
+        </form>
       </field>
     </record>
 
@@ -88,17 +117,24 @@
     </record>
 
     <!-- CONFIGURACION -->
-    <record id="res_config_settings_action" model="ir.actions.act_window">
+    <record model="ir.actions.act_window" id="res_config_settings_action" >
       <field name="name">Configuration</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">res.config.settings</field>
       <field name="view_mode">form</field>
       <field name="target">inline</field>
-      <field name="context">{'module' : 'empresas_contratadoras', }</field>
+      <field name="context">{'module' : 'empresa_registro'}</field>
     </record>
-    <!-- 'bin_size' : False' -->
 
-    <menuitem name="Empresas Contratadoras" id="empresas_contratadoras.menu_root"/>
+    <!-- REGISTROS -->
+    <record model="ir.actions.act_window" id="empresa_registro_action_window">
+      <field name="name">Registro de Empresas</field>
+      <field name="res_model">empresa_registro</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Empresas Contratadoras" 
+              id="empresas_contratadoras.menu_root"/>
 
     <!-- EMPRESAS CONTRATADORAS -->
     <menuitem name="Empresas" 
@@ -126,6 +162,12 @@
               id="empresas_contratadoras.menu_5"
               parent="empresas_contratadoras.menu_4"
               action="res_config_settings_action"/>
+
+    <!-- REGISTROS -->
+    <menuitem name="Registros"
+              id="empresas_contratadoras.menu_6"
+              parent="empresas_contratadoras.menu_4"
+              action="empresa_registro_action_window"/>
 
   </data>
 </odoo>
